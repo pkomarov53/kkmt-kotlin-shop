@@ -1,13 +1,13 @@
 package classes
 
 open class Product(
-    private val name: String,
-    private val price: String,
+    val name: String,
+    val price: String,
     val vendorCode: String,
     private val availability: String
 ) {
 
-    private var rate: Int = 0
+    var rate: Int = 0
 
     override fun toString(): String {
        return "$name, $vendorCode"
@@ -18,7 +18,7 @@ open class Product(
             "Артикул товара: $vendorCode\n" +
             "Наличие на складе: $availability")
 
-    fun productRate(userRating: Int) {
-        rate = userRating
+    fun productRate(userRating: Int): Int {
+        return rate + userRating
     }
 }

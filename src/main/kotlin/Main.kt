@@ -35,14 +35,29 @@ fun inputHelper(productType: String) {
 }
 
 fun main() {
-    val productList: MutableList <Product> = mutableListOf()
-
     println("Меню программы:\n" +
             "1 -> Добавить товар в общий список\n" +
             "2 -> Удалить товар из общего списка\n" +
             "3 -> Просмотреть список товаров\n" +
             "4 -> Вывести информацию о конкретном товаре\n" +
             "5 -> Завершить работу программы")
+    val a = Clothes("Штаны Найк",
+        "15000 рублей",
+        "345341",
+        "В наличии",
+        "М",
+        "Для мужчин",
+        "Возможна")
+
+    val b = Clothes("Худи Адидас",
+        "9500 рублей",
+        "783241",
+        "Нет в наличии",
+        "XL",
+        "Для женщин",
+        "Невозможна")
+
+    val productList: MutableList <Product> = mutableListOf(a, b)
 
     while (true) {
         print("Введите действие ->  ")
@@ -86,20 +101,26 @@ fun main() {
             }
 
             2 -> {
-                    print("Введите артикул товара -> ")
-                    val iterator = productList.iterator()
-                    while (iterator.hasNext()) {
-                        val item = iterator.next()
-                        if (item.vendorCode == readlnOrNull().toString()) iterator.remove()
-                        else {
-                            println("Такого товара нет")
-                        }
-                    }
+                println("Требуется номер товара: ")
+                try {
+                    print("Введите номер товара -> ")
+                    val number = readln().toInt()
+                    productList.removeAt(number - 1)
+                }
+                catch(ex: Exception) {
+                    println("Введите правильный номер")
+                }
             }
 
             3 -> {
                if (productList.isNotEmpty()) {
-                   println(productList)
+                   var number: Int = 0
+                   productList.forEach {
+                       number++
+                       println("\t$number. Название - ${it.name} " +
+                               "Артикул - ${it.vendorCode} " +
+                               "Цена - ${it.price} ")
+                   }
 
                } else {
                    println("В списке отсутствуют товары!")
@@ -108,15 +129,14 @@ fun main() {
             }
 
             4 -> {
-                print("\nВведите артикул товара -> ")
-                for (item in productList)
-                    if (item.vendorCode == readln()) {
-                        println(item.productInfo())
-                        break
-                    } else {
-                        println("Такого товара нет")
-                        break
-                    }
+                try {
+                    print("Введите номер товара -> ")
+                    val number = readln().toInt()
+                    productList[number - 1].productInfo()
+                }
+                catch(ex: Exception) {
+                    println("Введите правильный номер")
+                }
             }
 
             5 -> break
